@@ -1,19 +1,26 @@
 {% load i18n %}
 {% block content %}
-    <div class="paginator-bottom">
-    <i><b>{{results.paginator.count}}</b> {% trans " result(s) in " %} <b>{{results.paginator.num_pages}}</b> {% trans "page(s)" %}<br></i>
-    {% if results.has_previous %}
-        <a href="{{blog_url}}/page/{{results.previous_page_number}}">{% trans "Previous Page" %}</a>
-    {% else %}
-        {% trans "Previous Page" %}
-    {% endif %}
 
-    &nbsp;- <b>{{results.number}}</b> / <b>{{results.paginator.num_pages}}</b> -&nbsp;
-
-    {% if results.has_next %}
-        <a href="{{blog_url}}/page/{{results.next_page_number}}">{% trans "Next Page" %}</a>
-    {% else %}
-        {% trans "Next Page" %}
-    {% endif%}
-    </div>
+<ul class="pager">
+	<i><b>{{results.paginator.count}}</b> {% trans " result(s) in " %} <b>{{results.paginator.num_pages}}</b> {% trans "page(s)" %}<br></i>
+	- <b>{{results.number}}</b> / <b>{{results.paginator.num_pages}}</b> -
+	{% if results.has_previous %}
+		<li class="previous">
+			<a href="{{blog_url}}/page/{{results.previous_page_number}}">{% trans "&larr; Previous Page" %}</a>
+		</li>
+	{% else %}
+		<li class="previous disabled">
+			<a href="{{blog_url}}/">{% trans "&larr; Previous Page" %}</a>
+		</li>
+	{% endif %}
+	{% if results.has_next %}
+		<li class="next">
+			<a href="{{blog_url}}/page/{{results.next_page_number}}">{% trans "Next Page &rarr;" %}</a>
+		</li>
+	{% else %}
+		<li class="next disabled">
+			<a href="{{blog_url}}/">{% trans "Next Page &rarr;" %}</a>
+		</li>
+	{% endif%}
+</ul>
 {% endblock %}

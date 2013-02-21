@@ -13,12 +13,12 @@
     <br>
     {% trans "Tags:" %}
     {% for tag in object.tag.all %}
-        <a href="{{tag.get_absolute_url}}">{{tag.title}}</a>&nbsp;
+	<a href="{{tag.get_absolute_url}}"><span class="label label-warning">{{tag.title}}</span></a>&nbsp;
     {% endfor %}
     {% if object.comments_enabled %}
         &nbsp;,&nbsp;
         {% trans "Comments:" %}
         {% get_comment_count for blog.entry object.id as comment_count %}
-        <a href="{{ object.get_absolute_url }}#comments">{{ comment_count }}</a>
+        <a href="{{ object.get_absolute_url }}#comments"><span class="badge badge-inverse">{{ comment_count }}</span></a>
     {% endif %}
 </div>

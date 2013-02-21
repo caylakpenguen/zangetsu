@@ -4,8 +4,6 @@
 
 {% block content %}
 
-{% include "blog/paginator-top.html" %}
-
 {% for object in results.object_list %}
     {% include "blog/entry_brief.html" %}
 {% endfor %}

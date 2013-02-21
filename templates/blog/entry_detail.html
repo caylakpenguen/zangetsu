@@ -17,7 +17,7 @@
     <br>
     {% trans "Tags:" %}
     {% for tag in object.tag.all %}
-    <a href="{{tag.get_absolute_url}}">{{ tag.title }}</a>&nbsp;
+	<a href="{{tag.get_absolute_url}}"><span class="label label-warning">{{tag.title}}</span></a>&nbsp;
     {% endfor %}
 
         {% get_comment_list for blog.entry object.id as comment_list %}
@@ -36,7 +36,7 @@
 
     {% if object.comments_enabled %}
         <h2>{% trans "Post a comment (max. 3000 character)" %}</h2>
-    {% render_comment_form for object %}
+        {% render_comment_form for object %}
     {% endif %}
 </div>
 {% endblock %}
