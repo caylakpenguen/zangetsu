@@ -14,6 +14,9 @@ framework.
 
 """
 import os
+import sys
+
+sys.path.append('/home/caglar/zangetsu')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "zangetsu.settings")
 

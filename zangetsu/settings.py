@@ -6,7 +6,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ROOT = '/home/caglar/zangetsu'
-URL  = 'http://10ur.org'
+URL  = 'http://blog.10ur.org'
 
 ADMINS = (
     ('S.Çağlar Onur', 'caglar@10ur.org'),
