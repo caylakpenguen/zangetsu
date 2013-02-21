@@ -19,12 +19,11 @@
     {% for tag in object.tag.all %}
     <a href="{{tag.get_absolute_url}}">{{ tag.title }}</a>&nbsp;
     {% endfor %}
-    {% if object.comments_enabled %}
         {% get_comment_list for blog.entry object.id as comment_list %}
 
         <h2 id="comments">{% trans "Comments" %}</h2>
         {% for comment in comment_list %}
-            {% if comment.is_public %} 
+            {% if comment.is_public %}
                 <div class="comment_{% cycle odd,even %}" id="c{{ comment.id }}">
                     <a id="c{{ comment.id }}" href="#c{{ comment.id }}">#{{ forloop.counter }}</a> &nbsp; <b>{{ comment.user_name|striptags|escape }}</b> {%trans "commented"%}
                     <span class="date">{{ comment.submit_date|date:"d F y, l" }} @ {{ comment.submit_date|date:"H:i" }}</span>
@@ -34,6 +33,7 @@
             {%endif%}
         {% endfor %}
 
+    {% if object.comments_enabled %}
         <h2>{% trans "Post a comment (max. 3000 character)" %}</h2>
     {% render_comment_form for object %}
     {% endif %}
