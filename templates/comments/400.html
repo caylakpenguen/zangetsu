@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+	<center>
+		<br>
+{{ why }}
+		<h1>{% trans "Opps! The comment you tried to post to this entry wasn't saved because something tampered with the security information in the comment form."%}</h1>
+		<a href="{{ blog_url }}">{% trans "Return back to blog" %}</a>
+	</center>
+
+{% endblock %}

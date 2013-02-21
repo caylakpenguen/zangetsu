@@ -4,11 +4,12 @@
 # Licensed under the GNU General Public License, version 2.
 # See the file http://www.gnu.org/copyleft/gpl.txt.
 
-from django.contrib.syndication.feeds import Feed
+from django.contrib.syndication.views import Feed
+
 from django.utils.feedgenerator import Atom1Feed
 from django.core.exceptions import ObjectDoesNotExist
-from zangetsu.blog.models import Entry, Tag
-from zangetsu.blog import defaults
+from blog.models import Entry, Tag
+from blog import defaults
 from zangetsu.settings import URL
 import datetime
 

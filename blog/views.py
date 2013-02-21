@@ -9,8 +9,8 @@ import datetime
 from django.shortcuts import render_to_response
 from django.db.models import get_apps
 from django.core.paginator import Paginator, InvalidPage
-from zangetsu.blog.models import Entry, Tag
-from zangetsu.blog import defaults
+from blog.models import Entry, Tag
+from blog import defaults
 Now = datetime.datetime.now
 
 def search(request):

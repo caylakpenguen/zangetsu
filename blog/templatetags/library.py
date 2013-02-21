@@ -9,9 +9,9 @@ import datetime
 from django.template import Library,Node,Context
 from django.db.models import get_apps
 
-from zangetsu.blog import defaults
-from zangetsu.blog.models import Entry, Tag, Link
-import zangetsu.blog.defaults
+from blog import defaults
+from blog.models import Entry, Tag, Link
+import blog.defaults
 from zangetsu.settings import URL
 
 Now = datetime.datetime.now

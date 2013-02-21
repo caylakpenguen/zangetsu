@@ -6,7 +6,7 @@
 # See the file http://www.gnu.org/copyleft/gpl.txt.
 
 from django.contrib import admin
-from zangetsu.blog.models import *
+from blog.models import *
 
 class LinkAdmin(admin.ModelAdmin):
     list_display = ["id", "title", "url"]

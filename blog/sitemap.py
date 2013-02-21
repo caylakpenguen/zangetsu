@@ -7,7 +7,7 @@
 import datetime
 
 from django.contrib.sitemaps import Sitemap
-from zangetsu.blog.models import Entry
+from blog.models import Entry
 
 class ZangetsuSitemap(Sitemap):
     priority = 0.5

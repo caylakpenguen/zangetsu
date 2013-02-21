@@ -21,11 +21,11 @@ for item in length:
 
     entry = Entry()
     entry.title = e.title
-	
+
     list = []
     for i in e.categories:
     	list.append(i[1])
-    
+
     t = Tag.objects.filter(title__in=list)
 
     entry.content = e.content[0]["value"]

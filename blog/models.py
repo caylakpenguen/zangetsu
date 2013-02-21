@@ -8,7 +8,7 @@ from django.contrib.comments.moderation import CommentModerator, moderator
 from django.db import models
 from django.db.models import signals
 from django.utils.translation import ugettext as _
-from zangetsu.blog import defaults
+from blog import defaults
 
 class Link(models.Model):
 
