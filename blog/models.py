@@ -15,7 +15,7 @@ class Link(models.Model):
     title = models.CharField(max_length = 64, verbose_name=_("title"))
     url = models.URLField(verbose_name=_("url"))
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     class Meta:
@@ -27,7 +27,7 @@ class Tag(models.Model):
     title = models.CharField(max_length = 32, verbose_name=_("title"))
     count = models.IntegerField(blank=True, default=0)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     def get_absolute_url(self):
@@ -45,7 +45,7 @@ class Entry(models.Model):
     pubdate = models.DateTimeField(verbose_name=_("publish date"))
     comments_enabled = models.BooleanField(verbose_name=_("comments enabled"))
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     def get_absolute_url(self):
