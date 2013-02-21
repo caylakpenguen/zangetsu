@@ -20,7 +20,7 @@ class RSSFeed(Feed):
     description = defaults.BLOG_DESC
 
     def get_object(self, request, category_title):
-    return get_object_or_404(Tag, title=category_title)
+        return get_object_or_404(Tag, title=category_title)
 
     def items(self, object):
         now = datetime.datetime.now()
