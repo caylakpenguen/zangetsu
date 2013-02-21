@@ -7,23 +7,20 @@
 from django.contrib.syndication.views import Feed
 
 from django.utils.feedgenerator import Atom1Feed
-from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
+
 from blog.models import Entry, Tag
 from blog import defaults
 from zangetsu.settings import URL
 import datetime
 
-class RssFeed(Feed):
+class RSSFeed(Feed):
     title = defaults.BLOG_NAME
     link = URL
     description = defaults.BLOG_DESC
 
-    """New in Django 1.0: get_object() can handle the /rss/ url."""
-    def get_object(self, bits):
-        if len(bits) != 1:
-            return None
-        else:
-            return Tag.objects.get(title=bits[0])
+    def get_object(self, request, category_title):
+    return get_object_or_404(Tag, title=category_title)
 
     def items(self, object):
         now = datetime.datetime.now()
@@ -37,6 +34,6 @@ class RssFeed(Feed):
     def item_pubdate(self, item):
         return item.pubdate
 
-class AtomFeed(RssFeed):
-    subtitle = RssFeed.description
+class AtomFeed(RSSFeed):
+    subtitle = RSSFeed.description
     feed_type = Atom1Feed

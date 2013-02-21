@@ -8,7 +8,7 @@ import datetime
 
 from django.conf.urls import patterns, url
 
-#from blog.feeds import RssFeed, AtomFeed
+from blog.feeds import RssFeed, AtomFeed
 from blog.models import Entry
 from blog.sitemap import ZangetsuSitemap
 from blog import views
@@ -24,11 +24,6 @@ info_dict = {
 sitemaps = {
     "blog": ZangetsuSitemap
 }
-
-#feed_dict = {
-#    "rss": RssFeed,
-#    "atom": AtomFeed,
-#}
 
 urlpatterns = patterns("",
     (r"^search/$", "blog.views.search"),
@@ -46,18 +41,12 @@ urlpatterns = patterns("",
         {"queryset": Entry.objects.filter(pubdate__lte=Now())}
     ),
 
-#    (r"^feed/(?P<url>.*)/$",
-#        "django.contrib.syndication.views.Feed",
-#        {"feed_dict": feed_dict}
-#    ),
-#
-#    (r"^feed/(?P<url>.*)/(?P<slug>[A-Za-z-_]+)/$",
-#        "django.contrib.syndication.views.Feed",
-#        {"feed_dict": feed_dict}
-#    ),
+    (r"^feed/rss/(?P<category_title>.*)/$", RSSFeed()),
+
+    (r"^feed/rss/(?P<category_title>.*)/$", AtomFeed()),
 
     (r"^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\w{1,2})/(?P<object_id>\d+)/$",
-        "django.views.generic.date_based.object_detail", 
+        "django.views.generic.date_based.object_detail",
         dict(info_dict, month_format="%m")
     ),
 
@@ -71,7 +60,7 @@ urlpatterns = patterns("",
         dict(info_dict, month_format="%m")
     ),
 
-    (r"^(?P<year>\d{4})/$", 
+    (r"^(?P<year>\d{4})/$",
         "django.views.generic.date_based.archive_year",
         info_dict
     ),
