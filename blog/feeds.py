@@ -14,7 +14,7 @@ from blog import defaults
 from zangetsu.settings import URL
 import datetime
 
-class RSSFeed(Feed):
+class RssFeed(Feed):
     title = defaults.BLOG_NAME
     link = URL
     description = defaults.BLOG_DESC
@@ -34,6 +34,6 @@ class RSSFeed(Feed):
     def item_pubdate(self, item):
         return item.pubdate
 
-class AtomFeed(RSSFeed):
-    subtitle = RSSFeed.description
+class AtomFeed(RssFeed):
+    subtitle = RssFeed.description
     feed_type = Atom1Feed
