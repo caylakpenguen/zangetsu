@@ -41,7 +41,7 @@ urlpatterns = patterns("",
         {"queryset": Entry.objects.filter(pubdate__lte=Now())}
     ),
 
-    (r"^feed/rss/(?P<category_title>.*)/$", RSSFeed()),
+    (r"^feed/rss/(?P<category_title>.*)/$", RssFeed()),
 
     (r"^feed/rss/(?P<category_title>.*)/$", AtomFeed()),
 
