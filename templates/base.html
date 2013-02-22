@@ -1,101 +1,141 @@
+<!DOCTYPE html>
 <!-- Localization -->
 {% load i18n %}
 {% load library %}
 {% build_blog_name %}
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<!-- Other meta stuff that matters -->
+<!-- Other meta stuff that matters
 {{ blog_meta|safe }}
+-->
 
 <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ blog_url }}/feed/rss">
 <link rel="stylesheet" href="{{ blog_url }}/static/style/blog.css" type="text/css" media="screen,projection">
-<link rel="stylesheet" href="{{ blog_url }}/static/style/print.css" type="text/css" media="print">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="http://10ur.org/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://10ur.org/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+<style type="text/css">
+	body {
+		padding-top: 60px;
+		padding-bottom: 40px;
+	}
+	.sidebar-nav {
+		padding: 9px 0;
+	}
+
+	@media (max-width: 980px) {
+		/* Enable use of floated navbar text */
+		.navbar-text.pull-right {
+			float: none;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+	}
+</style>
 <title>{{ blog_name }}{% block title %}{% endblock %}</title>
-
-<!-- Enable tinyMCE for all textarea widgets
-<script type="text/javascript" src="{{ blog_url }}/static/admin/media/tinymce/tiny_mce.js"></script>
-<script type="text/javascript" src="{{ blog_url }}/static/admin/media/tinymce/textareas-comments.js"></script>
--->
-
 </head>
 <body>
-    <!-- Header -->
-    <div id="header">
-        <a href="{{ blog_url }}">{{ blog_name }}</a>
-    </div>
+	<!-- Header -->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="brand" href="{{ blog_url }}">{{ blog_name }}</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#about">About</a></li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- content -->
-    <div id="content">
-        {% block content %}{% endblock %}
-    </div>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span9">
+				<!-- content -->
+				{% block content %}{% endblock %}
+			</div> <!-- span9 -->
+			<div class="span3">
+				<!-- Description -->
+				<center><table><tr><td><img alt="head" src="http://10ur.org/head.png"><td><td>{{ blog_desc|safe }}</td></tr></table></center>
+				<!-- Archives -->
+				<h3>{% trans "Archives" %}</h3>
+				{% build_month_list %}
+				<select class="span12" onchange="if (this.value != '') {location=this.value;}">
+					<option value="">{% trans "Archives" %}</option>
+					{% for month in blog_months %}
+					<option value="{{ blog_url }}/{{ month|date:"Y/m"|lower }}/">{{ month|date:"F Y" }}</option>
+					{% endfor %}
+				</select>
+				<hr>
+				<!-- Search -->
+				<h3>{% trans "Search" %}</h3>
+				<form class="form-search" method="get" id="searchform" action="{{ blog_url }}/search/">
+					<div class="input-append">
+						<input class="input-large search-query" type="text" name="s" id="s">
+						<button type="submit" class="btn">Search</button>
+					</div>
+				</form>
+				<hr>
+				<!-- Tags -->
+				<h3>{% trans "Tags" %}</h3>
+				{% build_tag_list %}
+				<ul class="nav nav-list">
+				{% for tag in blog_tag %}
+					<!--<a href="{{ blog_url }}/feed/rss/{{ tag.title }}"><img border="0" alt="rss" src="{{ blog_url }}/static/image/feed-icon-12x12.gif"></a>-->
+					<li><a href="{{ blog_url }}/tag/{{ tag.title }}">{{ tag.title }} ({{ tag.count }})</a></li>
+				{% endfor %}
+				</ul>
+				<hr>
+				<!-- Latest Comments
+				<h3>{% trans "Latest Comments" %}</h3>
+				<br>
+				{% build_comment_list %}
+				{% for comment in blog_comments %}
+					<div class="comment_{% cycle odd,even %}" id="c{{ comment.id }}">
+					<b>{{ comment.user_name|striptags|escape }}</b> {%trans "commented"%} on <a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">{{ comment.content_object.title }}</a>
+					<span class="date">{{ comment.submit_date|date:"d F y, l" }} @ {{ comment.submit_date|date:"H:i" }}</span>
+					<br>
+					{{ comment.comment|truncatewords:10|safe|striptags }}
+					</div>
+				{% endfor %}
+				<br>
+				<a href="{{ blog_url }}/comments">{%trans "All Comments"%}</a>
+				<hr>
+				-->
+				<!-- Links -->
+				<h3>{% trans "Links" %}</h3>
+				{% build_link_list %}
+				<ul class="nav nav-list">
+				{% for link in blog_link %}
+					<li><a href="{{ link.url }}/">{{ link.title }}</a></li>
+				{% endfor %}
+				</ul>
+			</div> <!-- span 3 -->
+		</div> <!-- row-fluid -->
+	</div><!--/.fluid-container-->
 
-    <!-- menu -->
-    <div id="menu">
-        <!-- Description -->
-        <center>{{ blog_desc|safe}}</center>
-
-        <!-- Archives -->
-        <h2>{% trans "Archives" %}</h2>
-        <center>
-        {% build_month_list %}
-        <select class="dropdownselect" onchange="if (this.value != '') {location=this.value;}">
-            <option value="">{% trans "Archives" %}</option>
-            {% for month in blog_months %}
-                <option value="{{ blog_url }}/{{ month|date:"Y/m"|lower }}/">{{ month|date:"F Y" }}</option>
-            {% endfor %}
-        </select>
-        </center>
-
-        <!-- Search -->
-        <h2>{% trans "Search" %}</h2>
-        <center>
-            <form method="get" id="searchform" action="{{ blog_url }}/search/">
-                <input class="dropdown" type="text" name="s" id="s">
-            </form>
-        </center>
-
-        <!-- Tags -->
-        <h2>{% trans "Tags" %}</h2>
-        {% build_tag_list %}
-        {% for tag in blog_tag %}
-            <a href="{{ blog_url }}/feed/rss/{{ tag.title }}"><img border="0" alt="rss" src="{{ blog_url }}/static/image/feed-icon-12x12.gif"></a>
-            <a href="{{ blog_url }}/tag/{{ tag.title }}">{{ tag.title }} ({{ tag.count }})</a><br>
-        {% endfor %}
-
-        <!-- Latest Comments -->
-        <h2>{% trans "Latest Comments" %}</h2>
-        <br>
-        {% build_comment_list %}
-        {% for comment in blog_comments %}
-            <div class="comment_{% cycle odd,even %}" id="c{{ comment.id }}">
-                <b>{{ comment.user_name|striptags|escape }}</b> - <a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">{{ comment.content_object.title }}</a> {%trans "commented"%} 
-                <span class="date">{{ comment.submit_date|date:"d F y, l" }} @ {{ comment.submit_date|date:"H:i" }}</span>
-                <br>
-                {{ comment.comment|truncatewords:10|safe|striptags }}
-            </div>
-        {% endfor %}
-        <br>
-        <a href="{{ blog_url }}/comments">{%trans "All Comments"%}</a>
-
-        <!-- Links -->
-        <h2>{% trans "Links" %}</h2>
-        {% build_link_list %}
-        {% for link in blog_link %}
-            <a href="{{ link.url }}/">{{ link.title }}</a><br>
-        {% endfor %}
-
-        <!-- Banners -->
-        <h2>{% trans "Banners" %}</h2>
-        <center>
-        <a href="http://www.pardus.org.tr" target="_blank"><img border="0" alt="Pardus... Özgürlük İçin..." src="http://www.pardus.org.tr/banner/buton3.png"></a>
-        </center>
-    </div>
-
-    <!-- Footer -->
-    <div id="footer"><a href="http://svn.pardus.org.tr/projeler/zangetsu/">Zangetsu</a></div>
+	<div class="navbar navbar-inverse navbar-fixed-bottom">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a href="https://github.com/caglar10ur/zangetsu">Zangetsu</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
