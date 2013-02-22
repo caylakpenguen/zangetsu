@@ -1,9 +1,11 @@
 {% load i18n %}
 {% block content %}
 
-<ul class="pager">
+<p align="center">
 	<i><b>{{results.paginator.count}}</b> {% trans " result(s) in " %} <b>{{results.paginator.num_pages}}</b> {% trans "page(s)" %}<br></i>
 	- <b>{{results.number}}</b> / <b>{{results.paginator.num_pages}}</b> -
+</p>
+<ul class="pager">
 	{% if results.has_previous %}
 		<li class="previous">
 			<a href="{{blog_url}}/page/{{results.previous_page_number}}">{% trans "&larr; Previous Page" %}</a>
