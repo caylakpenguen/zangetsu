@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2006, 2007, 2008, 2009 TUBITAK/UEKAE
+# Copyright © 2006, 2007, 2008, 2009, 2013 TUBITAK/UEKAE
 # Licensed under the GNU General Public License, version 2.
 # See the file http://www.gnu.org/copyleft/gpl.txt.
 
@@ -23,8 +23,3 @@ class EntryAdmin(admin.ModelAdmin):
     list_filter = ["pubdate", "comments_enabled"]
     search_fields = ["title", "content"]
 admin.site.register(Entry, EntryAdmin)
-
-#    FIXME: TinyMCE support for Admin Interface
-#    class Media:
-#        js = ("js/tinymce/tiny_mce.js",
-#            "js/tinymce/textareas.js",)

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Django settings for zangetsu project.
-
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
