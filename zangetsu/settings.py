@@ -121,6 +121,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # http://www.codingnot.es/bootstrap-your-django-admin-in-3-minutes/
+    #'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.comments',
     'django.contrib.sitemaps',
