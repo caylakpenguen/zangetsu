@@ -4,21 +4,19 @@
 {% build_blog_name %}
 
 <div class="entry">
-    <b><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></b>
-    <span class="date">{{ object.pubdate|date:"d F y, l \@ H:i" }}</span>
-    <br>
-    <br>
-    {{ object.content|safe }}
-    <br>
-    <br>
-    {% trans "Tags:" %}
-    {% for tag in object.tag.all %}
-	<a href="{{tag.get_absolute_url}}"><span class="label label-warning">{{tag.title}}</span></a>&nbsp;
-    {% endfor %}
-    {% if object.comments_enabled %}
-        &nbsp;,&nbsp;
-        {% trans "Comments:" %}
-        {% get_comment_count for blog.entry object.id as comment_count %}
-        <a href="{{ object.get_absolute_url }}#comments"><span class="badge badge-inverse">{{ comment_count }}</span></a>
-    {% endif %}
+	<strong><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></strong>
+	<p class="muted">{{ object.pubdate|date:"d F y, l \@ H:i" }}</p>
+	<br>
+	{{ object.content|safe }}
+	<br>
+	<span class="label label-info">{% trans "Tags:" %}</span>&nbsp;
+	{% for tag in object.tag.all %}
+		<a href="{{tag.get_absolute_url}}"><span class="label label-warning">{{tag.title}}</span></a>&nbsp;
+	{% endfor %}
+	{% if object.comments_enabled %}
+		&nbsp;&nbsp;
+		<span class="label label-info">{% trans "Comments:" %}</span>&nbsp;
+		{% get_comment_count for blog.entry object.id as comment_count %}
+		<a href="{{ object.get_absolute_url }}#comments"><span class="badge badge-warning">{{ comment_count }}</span></a>
+	{% endif %}
 </div>
