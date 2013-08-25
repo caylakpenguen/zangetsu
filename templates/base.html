@@ -6,135 +6,105 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>{{ blog_name }}{% block title %}{% endblock %}</title>
 
 <!-- Other meta stuff that matters
-{{ blog_meta|safe }}
+	{{ blog_meta|safe }}
 -->
 
-<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ blog_url }}/feed/rss">
-<link rel="stylesheet" href="{{ blog_url }}/static/style/blog.css" type="text/css" media="screen,projection">
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ blog_url }}/feed/rss">
+	<link rel="stylesheet" href="{{ blog_url }}/static/style/blog.css" type="text/css" media="screen,projection">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-<style type="text/css">
-	body {
-		padding-top: 60px;
-		padding-bottom: 40px;
-	}
-	.sidebar-nav {
-		padding: 9px 0;
-	}
-
-	@media (max-width: 980px) {
-		/* Enable use of floated navbar text */
-		.navbar-text.pull-right {
-			float: none;
-			padding-left: 5px;
-			padding-right: 5px;
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+-->
+	<link href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/spacelab/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+		body {
+			padding-top: 60px;
 		}
-	}
-</style>
-<title>{{ blog_name }}{% block title %}{% endblock %}</title>
+	</style>
 </head>
 <body>
 	<!-- Header -->
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="brand" href="{{ blog_url }}">{{ blog_name }}</a>
-				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#about">About</a></li>
-						<li><a href="#contact">Contact</a></li>
-					</ul>
+				<a class="navbar-brand" href="{{ blog_url }}">{{ blog_name }}</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="{{ blog_url }}">Home</a></li>
+					<li><a data-toggle="modal" href="#about">About</a></li>
+					<li><a href="#contact">Contact</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Links" %} <b class="caret"></b></a>
+						{% build_link_list %}
+						<ul class="dropdown-menu">
+						{% for link in blog_link %}
+							<li><a href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
+						{% endfor %}
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-left">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Tags" %} <b class="caret"></b></a>
+						{% build_tag_list %}
+						<ul class="dropdown-menu">
+						{% for tag in blog_tag %}
+							<li><a href="{{ blog_url }}/tag/{{ tag.title }}"><span class="badge pull-right">{{ tag.count }}</span>{{ tag.title }}</a></li>
+						{% endfor %}
+						</ul>
+				        </li>
+				</ul>
+				<form class="navbar-form navbar-right" role="search" method="get" id="searchform" action="{{ blog_url }}/search/">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="{% trans "Search" %}" type="text" name="s" id="s">
+					</div>
+					<button type="submit" class="btn btn-default">Search</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- About -->
+	<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="about" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">About</h4>
+				</div>
+				<div class="modal-body">
+					<!-- Description -->
+					{{ blog_desc|safe }}
+				</div>
+				<div class="modal-footer">
+					<p class="text-muted credit">This blog is powered by <a href="https://github.com/caglar10ur/zangetsu">Zangetsu</a></p>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<div class="span9">
+	<!-- Body -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
 				<!-- content -->
 				{% block content %}{% endblock %}
-			</div> <!-- span9 -->
-			<div class="span3">
-				<!-- Description -->
-				<center><table><tr><td><img alt="head" src="http://10ur.org/head.png"><td><td>{{ blog_desc|safe }}</td></tr></table></center>
-				<!-- Archives -->
-				<h3>{% trans "Archives" %}</h3>
-				{% build_month_list %}
-				<select class="span12" onchange="if (this.value != '') {location=this.value;}">
-					<option value="">{% trans "Archives" %}</option>
-					{% for month in blog_months %}
-					<option value="{{ blog_url }}/{{ month|date:"Y/m"|lower }}/">{{ month|date:"F Y" }}</option>
-					{% endfor %}
-				</select>
-				<hr>
-				<!-- Search -->
-				<h3>{% trans "Search" %}</h3>
-				<form class="form-search" method="get" id="searchform" action="{{ blog_url }}/search/">
-					<div class="input-append">
-						<input class="input-large search-query" type="text" name="s" id="s">
-						<button type="submit" class="btn">Search</button>
-					</div>
-				</form>
-				<hr>
-				<!-- Tags -->
-				<h3>{% trans "Tags" %}</h3>
-				{% build_tag_list %}
-				<ul class="nav nav-list">
-				{% for tag in blog_tag %}
-					<!--<a href="{{ blog_url }}/feed/rss/{{ tag.title }}"><img border="0" alt="rss" src="{{ blog_url }}/static/image/feed-icon-12x12.gif"></a>-->
-					<li><a href="{{ blog_url }}/tag/{{ tag.title }}">{{ tag.title }} ({{ tag.count }})</a></li>
-				{% endfor %}
-				</ul>
-				<hr>
-				<!-- Latest Comments
-				<h3>{% trans "Latest Comments" %}</h3>
-				<br>
-				{% build_comment_list %}
-				{% for comment in blog_comments %}
-					<div class="comment_{% cycle odd,even %}" id="c{{ comment.id }}">
-					<b>{{ comment.user_name|striptags|escape }}</b> {%trans "commented"%} on <a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">{{ comment.content_object.title }}</a>
-					<span class="date">{{ comment.submit_date|date:"d F y, l" }} @ {{ comment.submit_date|date:"H:i" }}</span>
-					<br>
-					{{ comment.comment|truncatewords:10|safe|striptags }}
-					</div>
-				{% endfor %}
-				<br>
-				<a href="{{ blog_url }}/comments">{%trans "All Comments"%}</a>
-				<hr>
-				-->
-				<!-- Links -->
-				<h3>{% trans "Links" %}</h3>
-				{% build_link_list %}
-				<ul class="nav nav-list">
-				{% for link in blog_link %}
-					<li><a href="{{ link.url }}/">{{ link.title }}</a></li>
-				{% endfor %}
-				</ul>
-			</div> <!-- span 3 -->
-		</div> <!-- row-fluid -->
-	</div><!--/.fluid-container-->
+			</div> <!-- col-md12 -->
+		</div> <!-- row -->
+	</div><!-- container-->
 
-	<div class="navbar navbar-inverse navbar-fixed-bottom">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li><a href="https://github.com/caglar10ur/zangetsu">Powered by Zangetsu</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-    </div>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
