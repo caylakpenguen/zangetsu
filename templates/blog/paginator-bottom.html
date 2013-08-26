@@ -2,12 +2,12 @@
 {% block content %}
 
 <!--
-<p style="text-align:center;">
+<p style="text-align:center">
 	<i><b>{{results.paginator.count}}</b> {% trans " result(s) in " %} <b>{{results.paginator.num_pages}}</b> {% trans "page(s)" %}<br></i>
 </p>
 -->
 
-<ul class="pagination">
+<ul class="pagination" style="text-align:center">
 	{% if results.has_previous %}
 		<li><a href="{{blog_url}}/page/{{results.previous_page_number}}">&laquo;</a></li>
 	{% endif %}
@@ -21,7 +21,6 @@
 	{% endfor %}
 
 	{% if results.has_next %}
-
 		<li><a href="{{blog_url}}/page/{{results.next_page_number}}">&raquo;</a></li>
 	{% endif %}
 </ul>

@@ -13,29 +13,32 @@
 	<p class="muted">{{ object.pubdate|date:"d F y, l \@ H:i" }}</p>
 	<br>
 	{{ object.content|safe }}
-	<br>
-	<span class="label label-info">{% trans "Tags:" %}</span>&nbsp;
-	{% for tag in object.tag.all %}
-		<a href="{{tag.get_absolute_url}}"><span class="label label-warning">{{tag.title}}</span></a>&nbsp;
-	{% endfor %}
-
+	<div class="well well-sm">
+		<span class="label label-info">{% trans "Tags:" %}</span>&nbsp;
+		{% for tag in object.tag.all %}
+			<a href="{{tag.get_absolute_url}}"><span class="label label-success">{{tag.title}}</span></a>&nbsp;
+		{% endfor %}
+	</div>
 	{% get_comment_count for blog.entry object.id as comment_count %}
 	{% if comment_count > 0 %}
-		<h2 id="comments">{% trans "Comments" %}</h2>
-		{% get_comment_list for blog.entry object.id as comment_list %}
-		{% for comment in comment_list %}
-			{% if comment.is_public %}
-				<div class="comment_{% cycle odd,even %}" id="c{{ comment.id }}">
-					<a id="c{{ comment.id }}" href="#c{{ comment.id }}">#{{ forloop.counter }}</a> &nbsp; <b>{{ comment.user_name|striptags|escape }}</b> {%trans "commented"%}
-					<p class="muted">{{ comment.submit_date|date:"d F y, l" }} @ {{ comment.submit_date|date:"H:i" }}</p>
-					{% autoescape off %}
-						{{ comment.comment|striptags|linebreaks|urlizetrunc:40 }}
-					{% endautoescape %}
-				</div>
-			{%endif%}
-		{% endfor %}
+		<div id="comments" class="panel panel-success">
+			<div class="panel-heading">{% trans "Comments" %}</div>
+			<div class="panel-body">
+				{% get_comment_list for blog.entry object.id as comment_list %}
+				{% for comment in comment_list %}
+					{% if comment.is_public %}
+						<div class="comment_{% cycle odd,even %}" id="c{{ comment.id }}">
+							<a id="c{{ comment.id }}" href="#c{{ comment.id }}">#{{ forloop.counter }}</a> &nbsp; <b>{{ comment.user_name|striptags|escape }}</b> {%trans "commented"%}
+							<p class="muted">{{ comment.submit_date|date:"d F y, l" }} @ {{ comment.submit_date|date:"H:i" }}</p>
+							{% autoescape off %}
+								{{ comment.comment|striptags|linebreaks|urlizetrunc:40 }}
+							{% endautoescape %}
+						</div>
+					{%endif%}
+				{% endfor %}
+			</div>
+		</div>
 	{% endif %}
-
 	{% if object.comments_enabled %}
 		<h2>{% trans "Post a comment (max. 3000 character)" %}</h2>
 		{% render_comment_form for object %}
