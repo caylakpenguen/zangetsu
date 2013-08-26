@@ -36,6 +36,12 @@ class LinkMenuObject(Node):
         context["blog_link"] = Link.objects.all()
         return ""
 
+
+class YearMenuObject(Node):
+    def render(self, context):
+        context["blog_years"] = Entry.objects.filter(pubdate__lte=Now()).dates("pubdate", "year", "DESC")
+        return ""
+
 class MonthMenuObject(Node):
     def render(self, context):
         context["blog_months"] = Entry.objects.filter(pubdate__lte=Now()).dates("pubdate", "month", "DESC")
@@ -59,6 +65,9 @@ def build_tag_list(parser, token):
 def build_link_list(parser, token):
     return LinkMenuObject()
 
+def build_year_list(parser, token):
+    return YearMenuObject()
+
 def build_month_list(parser, token):
     return MonthMenuObject()
 
@@ -68,5 +77,6 @@ def build_comment_list(parser, token):
 register.tag("build_blog_name", build_blog_name)
 register.tag("build_tag_list", build_tag_list)
 register.tag("build_link_list", build_link_list)
+register.tag("build_year_list", build_year_list)
 register.tag("build_month_list", build_month_list)
 register.tag("build_comment_list", build_comment_list)
