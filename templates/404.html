@@ -2,6 +2,11 @@
 {% load i18n %}
 {% block content %}
 
-<center><b>{% trans "No entry found in database!" %}</b></center>
+<h1>404</h1>
 
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<strong> {% trans "Oh snap! No entry found in database!" %}</strong>
+	<a href="{{ blog_url }}" class="alert-link">Click here to return home page</a>
+</div>
 {% endblock %}
