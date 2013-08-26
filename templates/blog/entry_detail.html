@@ -28,7 +28,7 @@
 				{% for comment in comment_list %}
 					{% if comment.is_public %}
 						<div class="comment_{% cycle odd,even %}" id="c{{ comment.id }}">
-							<a id="c{{ comment.id }}" href="#c{{ comment.id }}">#{{ forloop.counter }}</a> &nbsp; <b>{{ comment.user_name|striptags|escape }}</b> {%trans "commented"%}
+							<a href="#c{{ comment.id }}">#{{ forloop.counter }}</a> &nbsp; <b>{{ comment.user_name|striptags|escape }}</b> {%trans "commented"%}
 							<p class="muted">{{ comment.submit_date|date:"d F y, l" }} @ {{ comment.submit_date|date:"H:i" }}</p>
 							{% autoescape off %}
 								{{ comment.comment|striptags|linebreaks|urlizetrunc:40 }}
