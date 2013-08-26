@@ -5,12 +5,15 @@
 
 {% block content %}
 
-<h1>{% blocktrans %}{{ year }} archive{% endblocktrans %}</h1>
-
-<ul>
-{% for date in date_list %}
-	<li><a href="{{ date|date:"m"|lower }}/">{{ date|date:"F" }}</a></li>
-{% endfor %}
-</ul>
+<div class="panel panel-success">
+	<div class="panel-heading">{% blocktrans %}{{ year }} archive{% endblocktrans %}</div>
+	<div class="panel-body">
+		<div class="list-group">
+		{% for date in date_list %}
+			<a href="{{ date|date:"m"|lower }}/" class="list-group-item">{{ date|date:"F" }}</a>
+		{% endfor %}
+		</div>
+	</div>
+</div>
 
 {% endblock %}
